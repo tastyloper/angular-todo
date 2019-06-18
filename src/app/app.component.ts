@@ -1,15 +1,11 @@
-import { Component } from '@angular/core';
-
-interface Todo {
-  id: number;
-  content: string;
-  completed: boolean;
-}
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Todo } from './interface/todo.interface';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
   todos: Todo[] = [
@@ -17,14 +13,15 @@ export class AppComponent {
     { id: 2, content: 'CSS', completed: true },
     { id: 3, content: 'JS', completed: false }
   ];
-  completedTodos = this.todos.filter(val => val.completed).length;
-  activeTodos = this.todos.filter(val => !val.completed).length;
+  // completedTodos = this.todos.filter(val => val.completed).length;
+  // activeTodos = this.todos.filter(val => !val.completed).length;
 
   generateId() {
     return this.todos.length ? Math.max(...this.todos.map(todo => todo.id)) + 1 : 1;
   }
 
   addTodo(elem: HTMLInputElement) {
+    if (!elem.value.trim()) return;
     this.todos = [{ id: this.generateId(), content: elem.value, completed: false }, ...this.todos];
     elem.value = '';
   }
@@ -35,14 +32,10 @@ export class AppComponent {
 
   toggleTodo(id: number) {
     this.todos = this.todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
-    // this.completedTodos = this.todos.filter(val => val.completed).length;
-    // this.activeTodos = this.todos.filter(val => !val.completed).length;
   }
 
   toggleAllTodo(completed: boolean) {
     this.todos = this.todos.map(todo => ({ ...todo, completed}));
-    // this.completedTodos = this.todos.filter(val => val.completed).length;
-    // this.activeTodos = this.todos.filter(val => !val.completed).length;
   }
 
   checkClear() {
