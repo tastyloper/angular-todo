@@ -20,10 +20,9 @@ export class AppComponent {
     return this.todos.length ? Math.max(...this.todos.map(todo => todo.id)) + 1 : 1;
   }
 
-  addTodo(elem: HTMLInputElement) {
-    if (!elem.value.trim()) return;
-    this.todos = [{ id: this.generateId(), content: elem.value, completed: false }, ...this.todos];
-    elem.value = '';
+  addTodo(content: string) {
+    if (!content.trim()) return;
+    this.todos = [{ id: this.generateId(), content, completed: false }, ...this.todos];
   }
 
   removeTodo(id: number) {

@@ -6,5 +6,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./todo-input.component.css']
 })
 export class TodoInputComponent {
-  @Output() add = new EventEmitter<HTMLInputElement>();
+  @Output() add = new EventEmitter();
+  content: string;
+
+  addTodo() {
+    this.add.emit(this.content);
+    this.content = '';
+  }
 }
