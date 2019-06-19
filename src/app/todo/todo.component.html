@@ -1,0 +1,29 @@
+<div class="container">
+  <h1 class="title">Todos</h1>
+  <div class="ver">4.0</div>
+
+  <input class="input-todo" placeholder="What needs to be done?" autofocus (keyup.enter)="addTodo(input)" #input>
+  <ul class="nav" (click)="filter($event.target)">
+    <li id="all" class="active">All</li>
+    <li id="active">Active</li>
+    <li id="completed">Completed</li>
+  </ul>
+
+  <ul class="todos">
+    <li id="{{todo.id}}" class="todo-item" *ngFor="let todo of _todos">
+      <input class="custom-checkbox" type="checkbox" id="ck-{{todo.id}}" [checked]="todo.completed" (change)="toggleTodo(todo.id)">
+      <label for="ck-{{todo.id}}">{{todo.content}}</label>
+      <i class="remove-todo far fa-times-circle" (click)="removeTodo(todo.id)"></i>
+    </li>
+  </ul>
+  <div class="footer">
+    <div class="complete-all">
+      <input class="custom-checkbox" type="checkbox" id="ck-complete-all" (change)="toggleAllTodo(allToggle.checked)" #allToggle>
+      <label for="ck-complete-all">Mark all as complete</label>
+    </div>
+    <div class="clear-completed">
+      <button class="btn" (click)="checkClear()">Clear completed (<span class="completed-todos">{{CompletedTodosNum}}</span>)</button>
+      <strong class="active-todos">{{ActiveTodosNum}}</strong> items left
+    </div>
+  </div>
+</div>
