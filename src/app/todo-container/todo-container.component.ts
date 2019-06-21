@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+/* Core */
+import { Component, ViewEncapsulation } from '@angular/core';
 
+/* Interface */
 import { Todo } from '../interface/todo.interface';
+
+/* Type */
 import { NavItem } from '../type/nav-item.type';
 
 @Component({
-  selector: 'app-todo',
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  selector: 'app-todo-container',
+  templateUrl: './todo-container.component.html',
+  styleUrls: ['./todo-container.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class TodoComponent {
+export class TodoContainerComponent {
   todos: Todo[];
   navItems: NavItem[] = ['All', 'Active', 'Completed'];
   navState: NavItem = 'All';

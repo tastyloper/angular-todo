@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+/* Core */
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  template: `<app-todo-container></app-todo-container>`,
 })
 export class AppComponent {}

@@ -1,0 +1,10 @@
+<div class="footer">
+  <div class="complete-all">
+    <input class="custom-checkbox" type="checkbox" id="ck-complete-all" (change)="toggleAll.emit(allToggle.checked)" #allToggle>
+    <label for="ck-complete-all">Mark all as complete</label>
+  </div>
+  <div class="clear-completed">
+    <button class="btn" (click)="checkClear.emit()">Clear completed (<span class="completed-todos">{{CompletedTodosNum}}</span>)</button>
+    <strong class="active-todos">{{ActiveTodosNum}}</strong> items left
+  </div>
+</div>
