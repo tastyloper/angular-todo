@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+
 import { Todo } from '../interface/todo.interface';
+import { NavItem } from '../type/nav-item.type';
 
 @Component({
   selector: 'app-todo',
@@ -7,19 +9,30 @@ import { Todo } from '../interface/todo.interface';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent {
-  todos: Todo[] = [
-    { id: 1, content: 'HTML', completed: true },
-    { id: 2, content: 'CSS', completed: true },
-    { id: 3, content: 'JS', completed: false }
-  ];
-  navState = 'all';
+  todos: Todo[];
+  navItems: NavItem[] = ['All', 'Active', 'Completed'];
+  navState: NavItem = 'All';
+
+  constructor() {
+    this.getTodos();
+  }
+
+  getTodos() {
+    setTimeout(() => {
+      this.todos = [
+        { id: 1, content: 'HTML', completed: true },
+        { id: 2, content: 'CSS', completed: true },
+        { id: 3, content: 'JS', completed: false }
+      ];
+    }, 1000);
+  }
 
   generateId() {
     return this.todos.length ? Math.max(...this.todos.map(todo => todo.id)) + 1 : 1;
   }
 
   addTodo(elem) {
-    if (!elem.value.trim()) return;
+    if (!elem.value.trim()) { return; }
     this.todos = [{ id: this.generateId(), content: elem.value, completed: false }, ...this.todos];
     elem.value = '';
   }
@@ -41,28 +54,27 @@ export class TodoComponent {
   }
 
   filter(elem) {
-    if (elem.nodeName !== 'LI') return;
+    if (elem.nodeName !== 'LI') { return; }
 
     [ ...elem.parentNode.children ].forEach(item => {
-      if (item === elem) item.classList.add('active');
-      else item.classList.remove('active');
+      item === elem ? item.classList.add('active') : item.classList.remove('active');
     });
     this.navState = elem.id;
   }
 
   get CompletedTodosNum() {
-    return this.todos.filter(todo => todo.completed).length;
+    return this.todos ? this.todos.filter(todo => todo.completed).length : 0;
   }
 
   get ActiveTodosNum() {
-    return this.todos.filter(todo => !todo.completed).length;
+    return this.todos ? this.todos.filter(todo => !todo.completed).length : 0;
   }
 
-  get _todos(): Todo[] {
-    return this.todos.filter(({ completed }) => {
-      if (this.navState === 'active') return !completed;
-      if (this.navState === 'completed') return completed;
-      return true;
-    });
-  }
+  // get _todos(): Todo[] {
+  //   return this.todos.filter(({ completed }) => {
+  //     if (this.navState === 'Active') { return !completed; }
+  //     if (this.navState === 'Completed') { return completed; }
+  //     return true;
+  //   });
+  // }
 }
