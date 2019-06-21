@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { TodoInputComponent } from './todo-input/todo-input.component';
-import { TodoListComponent } from './todo-list/todo-list.component';
+import { TodoComponent } from './todo/todo.component';
+import { TodosFilterPipe } from './pipe/todos-filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoInputComponent,
-    TodoListComponent
+    TodoComponent,
+    TodosFilterPipe
   ],
   imports: [
     BrowserModule,
