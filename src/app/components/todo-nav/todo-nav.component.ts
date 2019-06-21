@@ -2,7 +2,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 /* Type */
-import { NavItem } from '../type/nav-item.type';
+import { NavItem } from '../../type/nav-item.type';
 
 @Component({
   selector: 'app-todo-nav',
