@@ -1,5 +1,6 @@
 /* Core */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 /* Interface */
 import { Todo } from '../../interface/todo.interface';
@@ -7,55 +8,63 @@ import { Todo } from '../../interface/todo.interface';
 /* Type */
 import { NavItem } from '../../type/nav-item.type';
 
+/* Environment */
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-todo-container',
   templateUrl: './todo-container.component.html',
   styleUrls: ['./todo-container.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class TodoContainerComponent {
+export class TodoContainerComponent implements OnInit {
+  appUrl: string = environment.appUrl;
   todos: Todo[];
   navItems: NavItem[] = ['All', 'Active', 'Completed'];
   navState: NavItem = 'All';
 
-  constructor() {
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
     this.getTodos();
   }
 
   getTodos() {
-    setTimeout(() => {
-      this.todos = [
-        { id: 1, content: 'HTML', completed: true },
-        { id: 2, content: 'CSS', completed: true },
-        { id: 3, content: 'JS', completed: false }
-      ];
-    }, 1000);
+    this.http.get<Todo[]>(this.appUrl).subscribe(todos => this.todos = todos);
   }
 
   generateId() {
     return this.todos.length ? Math.max(...this.todos.map(todo => todo.id)) + 1 : 1;
   }
 
-  addTodo(elem) {
-    if (!elem.value.trim()) { return; }
-    this.todos = [{ id: this.generateId(), content: elem.value, completed: false }, ...this.todos];
-    elem.value = '';
+  addTodo(input: HTMLInputElement) {
+    if (!input.value.trim()) { return; }
+    this.http.post<Todo[]>(this.appUrl, {
+      id: this.generateId(),
+      content: input.value,
+      completed: false
+    }).subscribe(todo => this.todos = todo);
+    input.value = '';
   }
 
-  removeTodo(id: number) {
-    this.todos = this.todos.filter(todo => todo.id !== id);
+  removeTodo(todoId: number) {
+    this.http.delete<Todo[]>(this.appUrl + todoId).subscribe(todo => this.todos = todo);
   }
 
-  toggleTodo(id: number) {
-    this.todos = this.todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo);
+  toggleTodo(todoId: number) {
+    this.http.patch<Todo[]>(this.appUrl + todoId, {
+      completed: !this.todos.find(todo => todo.id === todoId).completed
+    }).subscribe(todo => this.todos = todo);
   }
 
   toggleAllTodo(completed: boolean) {
-    this.todos = this.todos.map(todo => ({ ...todo, completed}));
+    this.http.patch<Todo[]>(this.appUrl, {
+      completed
+    }).subscribe(todo => this.todos = todo);
   }
 
   checkClear() {
-    this.todos = this.todos.filter(todo => !todo.completed);
+    this.http.delete<Todo[]>(this.appUrl + 'completed').subscribe(todo => this.todos = todo);
   }
 
   filter(elem) {
@@ -75,11 +84,7 @@ export class TodoContainerComponent {
     return this.todos ? this.todos.filter(todo => !todo.completed).length : 0;
   }
 
-  // get _todos(): Todo[] {
-  //   return this.todos.filter(({ completed }) => {
-  //     if (this.navState === 'Active') { return !completed; }
-  //     if (this.navState === 'Completed') { return completed; }
-  //     return true;
-  //   });
-  // }
+  get IsAllCheck() {
+    return this.todos.length === this.todos.filter(todo => todo.completed).length;
+  }
 }

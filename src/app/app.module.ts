@@ -1,6 +1,7 @@
-/* Core */
+/* Module */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 /* Pipe */
 import { TodosFilterPipe } from './pipe/todos-filter.pipe';
@@ -24,7 +25,8 @@ import { TodoFooterComponent } from './components/todo-footer/todo-footer.compon
     TodoFooterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

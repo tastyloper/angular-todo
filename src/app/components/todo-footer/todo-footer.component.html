@@ -1,6 +1,6 @@
 <div class="footer">
   <div class="complete-all">
-    <input class="custom-checkbox" type="checkbox" id="ck-complete-all" (change)="toggleAll.emit(allToggle.checked)" #allToggle>
+    <input class="custom-checkbox" type="checkbox" id="ck-complete-all" [checked]="IsAllCheck" (change)="toggleAll.emit(allToggle.checked)" #allToggle>
     <label for="ck-complete-all">Mark all as complete</label>
   </div>
   <div class="clear-completed">

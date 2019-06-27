@@ -11,4 +11,5 @@ export class TodoFooterComponent {
   @Output() checkClear = new EventEmitter();
   @Input() CompletedTodosNum: number;
   @Input() ActiveTodosNum: number;
+  @Input() IsAllCheck: number;
 }
