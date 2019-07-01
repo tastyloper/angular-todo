@@ -2,9 +2,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 /* Pipe */
-import { TodosFilterPipe } from './pipe/todos-filter.pipe';
+import { TodosFilterPipe } from './core/pipe/todos-filter.pipe';
 
 /* Component */
 import { AppComponent } from './app.component';
@@ -26,7 +27,8 @@ import { TodoFooterComponent } from './components/todo-footer/todo-footer.compon
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 /* Core */
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-todo-form',
@@ -8,4 +8,5 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class TodoFormComponent {
   @Output() add = new EventEmitter();
+  @Input() content: string;
 }

@@ -1,15 +1,14 @@
 /* Core */
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
+/* Service */
+import { TodosService } from 'src/app/core/service/todos.service';
 
 /* Interface */
-import { Todo } from '../../interface/todo.interface';
+import { Todo } from '../../core/models/todo.interface';
 
 /* Type */
-import { NavItem } from '../../type/nav-item.type';
-
-/* Environment */
-import { environment } from 'src/environments/environment';
+import { NavItem } from '../../core/models/nav-item.type';
 
 @Component({
   selector: 'app-todo-container',
@@ -18,62 +17,49 @@ import { environment } from 'src/environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 export class TodoContainerComponent implements OnInit {
-  appUrl: string = environment.appUrl;
   todos: Todo[];
+  content: string;
   navItems: NavItem[] = ['All', 'Active', 'Completed'];
   navState: NavItem = 'All';
 
-  constructor(private http: HttpClient) {}
+  constructor(private todosService: TodosService) {}
 
   ngOnInit() {
     this.getTodos();
   }
 
   getTodos() {
-    this.http.get<Todo[]>(this.appUrl).subscribe(todos => this.todos = todos);
+    this.todosService.getAll().subscribe(todos => this.todos = todos);
   }
 
   generateId() {
     return this.todos.length ? Math.max(...this.todos.map(todo => todo.id)) + 1 : 1;
   }
 
-  addTodo(input: HTMLInputElement) {
-    if (!input.value.trim()) { return; }
-    this.http.post<Todo[]>(this.appUrl, {
-      id: this.generateId(),
-      content: input.value,
-      completed: false
-    }).subscribe(todo => this.todos = todo);
-    input.value = '';
+  addTodo() {
+    const content = this.content && this.content.trim();
+    this.content = '';
+    console.log(content);
+    
+    if (!content) { return; }
+    this.todosService.add(this.generateId(), content).subscribe(todo => this.todos = todo);
   }
 
   removeTodo(todoId: number) {
-    this.http.delete<Todo[]>(this.appUrl + todoId).subscribe(todo => this.todos = todo);
+    this.todosService.delete(todoId).subscribe(todo => this.todos = todo);
   }
 
   toggleTodo(todoId: number) {
-    this.http.patch<Todo[]>(this.appUrl + todoId, {
-      completed: !this.todos.find(todo => todo.id === todoId).completed
-    }).subscribe(todo => this.todos = todo);
+    const completed = !this.todos.find(todo => todo.id === todoId).completed;
+    this.todosService.toggle(todoId, completed).subscribe(todo => this.todos = todo);
   }
 
   toggleAllTodo(completed: boolean) {
-    this.http.patch<Todo[]>(this.appUrl, {
-      completed
-    }).subscribe(todo => this.todos = todo);
+    this.todosService.toggleAll(completed).subscribe(todo => this.todos = todo);
   }
 
   checkClear() {
-    this.http.delete<Todo[]>(this.appUrl + 'completed').subscribe(todo => this.todos = todo);
-  }
-
-  filter(elem) {
-    if (elem.nodeName !== 'LI') { return; }
-
-    [ ...elem.parentNode.children ].forEach(item => {
-      item === elem ? item.classList.add('active') : item.classList.remove('active');
-    });
-    this.navState = elem.id;
+    this.todosService.clear().subscribe(todo => this.todos = todo);
   }
 
   get CompletedTodosNum() {
@@ -85,6 +71,6 @@ export class TodoContainerComponent implements OnInit {
   }
 
   get IsAllCheck() {
-    return this.todos.length === this.todos.filter(todo => todo.completed).length;
+    return this.todos ? this.todos.length === this.todos.filter(todo => todo.completed).length : false;
   }
 }

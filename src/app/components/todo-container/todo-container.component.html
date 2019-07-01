@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="title">Todos</h1>
   <div class="ver">6.0</div>
-  <app-todo-form (add)="addTodo($event)"></app-todo-form>
+  <app-todo-form (add)="addTodo(content = $event)" [(content)]="content"></app-todo-form>
   <app-todo-nav [navItems]="navItems" [navState]="navState" (chengeState)="navState = $event"></app-todo-nav>
   <app-todo-list [todos]="todos" [navState]="navState" (toogle)="toggleTodo($event)" (remove)="removeTodo($event)"></app-todo-list>
   <app-todo-footer (toggleAll)="toggleAllTodo($event)" (checkClear)="checkClear()" [IsAllCheck]="IsAllCheck" [CompletedTodosNum]="CompletedTodosNum" [ActiveTodosNum]="ActiveTodosNum"></app-todo-footer>
