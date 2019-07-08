@@ -1,6 +1,10 @@
+/* Module */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CoreModule } from './core/core.module';
+import { TodoModule } from './todo/todo.module';
 
+/* Component */
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -8,7 +12,9 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    TodoModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

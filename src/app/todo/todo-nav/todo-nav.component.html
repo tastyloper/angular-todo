@@ -1,0 +1,3 @@
+<ul class="nav">
+  <li *ngFor="let navItem of navItems" [class.active]="navState === navItem" (click)="chengeState.emit(navItem)">{{navItem}}</li>
+</ul>
