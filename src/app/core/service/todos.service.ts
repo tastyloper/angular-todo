@@ -1,6 +1,7 @@
-/* Core */
+/* Module */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { CoreModule } from '../core.module';
 
 /* Interface */
 import { Todo } from '../models/todo.interface';
@@ -9,7 +10,7 @@ import { Todo } from '../models/todo.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CoreModule
 })
 export class TodosService {
   appUrl: string = environment.appUrl;

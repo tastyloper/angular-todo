@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Todo } from '../models/todo.interface';
-import { NavItem } from '../models/nav-item.type';
+
+import { Todo } from '../../core/models/todo.interface';
+import { NavItem } from '../../core/models/nav-item.type';
 
 @Pipe({
   name: 'todosFilter'

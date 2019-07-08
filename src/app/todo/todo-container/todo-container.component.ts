@@ -40,7 +40,7 @@ export class TodoContainerComponent implements OnInit {
     const content = this.content && this.content.trim();
     this.content = '';
     console.log(content);
-    
+
     if (!content) { return; }
     this.todosService.add(this.generateId(), content).subscribe(todo => this.todos = todo);
   }
